@@ -1,0 +1,15 @@
+package com.online.shop.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ProductDto {
+
+    private String name;
+    private String category;
+    private String price;
+    private String description;
+
+}
