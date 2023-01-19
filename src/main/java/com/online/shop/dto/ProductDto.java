@@ -13,7 +13,8 @@ public class ProductDto {
     private String category;
     private String price;
     private String description;
-
+    private String image;
+    private String id;
 
 
 }
