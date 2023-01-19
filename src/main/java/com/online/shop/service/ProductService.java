@@ -7,6 +7,7 @@ import com.online.shop.mapper.ProductMapper;
 import com.online.shop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ public class ProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    public void addProduct(ProductDto productDto) {
-        Product product = productMapper.map(productDto);
+    public void addProduct(ProductDto productDto, MultipartFile multipartFile) {
+        Product product = productMapper.map(productDto, multipartFile);
         productRepository.save(product);
     }
 

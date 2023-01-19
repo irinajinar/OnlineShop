@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -32,12 +32,14 @@ public class MainController {
     }
 
     @PostMapping("/addProduct")
-    public String addProductPagePost(@ModelAttribute ProductDto productDto, BindingResult bindingResult) {
+    public String addProductPagePost(@ModelAttribute ProductDto productDto, BindingResult bindingResult,
+                                     @RequestParam("productImage") MultipartFile multipartFile) throws IOException {
+        System.out.println(multipartFile.getBytes());
         productValidator.validate(productDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return "addProduct";
         }
-        productService.addProduct(productDto);
+        productService.addProduct(productDto, multipartFile);
         return "redirect:/addProduct";
     }
     @GetMapping("/home")
@@ -46,6 +48,12 @@ public class MainController {
         model.addAttribute("productDtoList", productDtoList);
         System.out.println(productDtoList);
         return "homepage";
+    }
+
+    @GetMapping("/product/{productId}")
+    public String viewProductGet(@PathVariable(value ="productId") String productId){
+        System.out.println("Am dat click pe produsul cu id-ul" + productId);
+        return "viewProduct";
     }
 
 
