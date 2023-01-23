@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -33,5 +34,11 @@ public class ProductService {
         }
 
         return productDtoList;
+    }
+
+    public ProductDto getOneProductDtoById(String stringId) {
+        Product product = productRepository.getReferenceById(Integer.parseInt(stringId));
+        ProductDto productDto = productMapper.map(product);
+        return productDto;
     }
 }

@@ -51,7 +51,9 @@ public class MainController {
     }
 
     @GetMapping("/product/{productId}")
-    public String viewProductGet(@PathVariable(value ="productId") String productId){
+    public String viewProductGet(@PathVariable(value ="productId") String productId, Model model){
+        ProductDto productDto= productService.getOneProductDtoById(productId);
+        model.addAttribute("productDtoXX", productDto);
         System.out.println("Am dat click pe produsul cu id-ul" + productId);
         return "viewProduct";
     }
