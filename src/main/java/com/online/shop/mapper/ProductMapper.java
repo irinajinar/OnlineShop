@@ -16,9 +16,10 @@ public class ProductMapper {
         Product product= new Product();
         product.setName(productDto.getName());
         product.setCategory(productDto.getCategory());
-        product.setPrice(Double.parseDouble(productDto.getPrice()));
+        product.setPrice(Double.valueOf(productDto.getPrice()));
         product.setDescription(productDto.getDescription());
         product.setImage(convertToBytes(multipartFile));
+        product.setQuantity(Integer.valueOf(productDto.getQuantity()));
         return product;
     }
 
@@ -38,6 +39,7 @@ public class ProductMapper {
         productDto.setDescription(product.getDescription());
         productDto.setImage(Base64.encodeBase64String(product.getImage()));
         productDto.setId(String.valueOf(product.getId()));
+        productDto.setQuantity(String.valueOf(product.getQuantity()));
         return productDto;
     }
 }

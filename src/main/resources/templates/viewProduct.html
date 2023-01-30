@@ -36,7 +36,7 @@
           <h2 th:text="${'$ '+productDtoXX.price}" ></h2>
           <ul class="list">
             <li><a class="active" href="#"><span>Category</span> : <span th:text="${productDtoXX.category}"></span></a></li>
-            <li><a href="#"><span>Availability</span> : In Stock</a></li>
+            <li><a href="#"><span>Availability</span> : <span th:text="${productDtoXX.quantity}"></span></a></li>
           </ul>
           <p th:text="${productDtoXX.description}"></p>
           <div class="product_count">
