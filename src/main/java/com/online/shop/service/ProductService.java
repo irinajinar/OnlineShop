@@ -36,9 +36,13 @@ public class ProductService {
         return productDtoList;
     }
 
-    public ProductDto getOneProductDtoById(String stringId) {
-        Product product = productRepository.getReferenceById(Integer.parseInt(stringId));
+    public Optional<ProductDto> getOneProductDtoById(String productId) {
+        Optional<Product> optionalProduct = productRepository.findById(Integer.valueOf(productId));
+        if(optionalProduct.isEmpty()){
+            return Optional.empty();
+        }
+        Product product = optionalProduct.get();
         ProductDto productDto = productMapper.map(product);
-        return productDto;
+        return Optional.of(productDto);
     }
 }
