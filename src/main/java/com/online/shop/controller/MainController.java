@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -74,26 +75,26 @@ public class MainController {
     }
 
     @GetMapping("/register")
-    public String registerPageGet(Model model){
+    public String registerPageGet(Model model,@RequestParam(value = "userAddedSuccessfully", required = false) Boolean userAddedSuccessfully){
+        System.out.println(userAddedSuccessfully);
         UserDto userDto=new UserDto();
         model.addAttribute("userDto", userDto);
-
-
-
+        if (userAddedSuccessfully != null && userAddedSuccessfully) {
+            model.addAttribute("message", "User was added successfuly!");
+        }
         return "register";
     }
 
-    @PostMapping("register")
-    public String registerPagePost(@ModelAttribute UserDto userDto, BindingResult bindingResult) throws IOException {
-
-
+    @PostMapping("/register")
+    public String registerPagePost(@ModelAttribute UserDto userDto, BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes) throws IOException {
         System.out.println(userDto);
         userValidator.validate(userDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return "register";
         }
-
         userService.register(userDto);
+        redirectAttributes.addAttribute("userAddedSuccessfully", true);
         return "redirect:/register";
     }
 

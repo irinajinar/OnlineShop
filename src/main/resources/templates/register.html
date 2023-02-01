@@ -33,6 +33,7 @@
           <h3>Create an account</h3>
 
           <form th:object="${userDto}" class="row login_form" action="/register" id="register_form" method="POST">
+            <p th:if="${message}" th:text="${message}"></p>
             <div class="col-md-12 form-group">
               <input th:field="*{fullName}" type="text" class="form-control" id="fullName" placeholder="Full name"
                      onfocus="this.placeholder = ''" onblur="this.placeholder = 'Full name'">
@@ -40,6 +41,7 @@
             <div class="col-md-12 form-group">
               <input th:field="*{email}" type="text" class="form-control" id="email" name="email" placeholder="Email Address"
                      onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+              <p th:each="error : ${#fields.errors('email')}" th:text="${error}"></p>
             </div>
             <div class="col-md-12 form-group">
               <input th:field="*{password}" type="text" class="form-control" id="password" name="password" placeholder="Password"
@@ -54,6 +56,13 @@
               <input th:field="*{address}" type="text" class="form-control" id="address"
                      placeholder="Your Address" onfocus="this.placeholder = ''"
                      onblur="this.placeholder = 'Your Address'">
+            </div>
+            <div class="col-md-12 form-group">
+              <select class="form-control" id = "userRole" th:field = "*{userRole}">
+                <option th:each="role : ${T(com.online.shop.enums.UserRole).values()}"
+                        th:value="${role.name()}" th:text="${role.friendlyName()}"></option>
+              </select>
+
             </div>
 
             <div class="col-md-12 form-group">
