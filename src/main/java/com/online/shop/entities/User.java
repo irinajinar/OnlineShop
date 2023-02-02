@@ -1,10 +1,8 @@
 package com.online.shop.entities;
 
 import com.online.shop.enums.UserRole;
-import jakarta.persistence.Entity;
+import javax.persistence.*;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +20,8 @@ public class User {
     private String password;
     private String address;
     private UserRole userRole;
+
+    @OneToOne
+    @JoinColumn
+    private ShoppingCart shoppingCart;
 }

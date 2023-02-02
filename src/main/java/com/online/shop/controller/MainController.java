@@ -98,5 +98,10 @@ public class MainController {
         return "redirect:/register";
     }
 
+    @GetMapping("/login")
+    public String loginGet(){
+          return "login";
+    }
+
 
 }
