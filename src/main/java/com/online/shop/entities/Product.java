@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,8 +18,15 @@ public class Product {
     private String category;
     private Double price;
     private String description;
-    private Integer quantity;
+
     @Lob
     @Column(columnDefinition="BLOB")
     private byte[] image;
+
+    private Integer quantity;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<ChosenProduct> chosenProducts;
+
+
+
 }

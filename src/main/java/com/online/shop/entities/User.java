@@ -20,4 +20,8 @@ public class User {
     private String password;
     private String address;
     private UserRole userRole;
+
+    @OneToOne
+    @JoinColumn
+    private ShoppingCart shoppingCart;
 }
