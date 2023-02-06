@@ -21,7 +21,6 @@ public class User {
     private String address;
     private UserRole userRole;
 
-    @OneToOne
-    @JoinColumn
+    @OneToOne(mappedBy = "user")
     private ShoppingCart shoppingCart;
 }
