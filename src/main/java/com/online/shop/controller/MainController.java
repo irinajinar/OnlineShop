@@ -1,12 +1,16 @@
 package com.online.shop.controller;
 
+import com.online.shop.dto.ChosenProductDto;
 import com.online.shop.dto.ProductDto;
+import com.online.shop.dto.ShoppingCartDto;
 import com.online.shop.dto.UserDto;
 import com.online.shop.service.ProductService;
+import com.online.shop.service.ShoppingCartService;
 import com.online.shop.service.UserService;
 import com.online.shop.validator.ProductValidator;
 import com.online.shop.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +36,9 @@ public class MainController {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private ShoppingCartService shoppingCartService;
 
       @GetMapping("/addProduct")
     public String addProductPageGet(Model model) {
@@ -71,6 +78,8 @@ public class MainController {
         ProductDto productDto = optionalProductDto.get();
         model.addAttribute("productDtoXX", productDto);
         System.out.println("Am dat click pe produsul cu id-ul" + productId);
+        ChosenProductDto chosenProductDto= new ChosenProductDto();
+        model.addAttribute("chosenProductDto", chosenProductDto);
         return "viewProduct";
     }
 
@@ -84,6 +93,15 @@ public class MainController {
         }
         return "register";
     }
+
+    @PostMapping("/product/{productId}")
+    public String viewProductPost(@PathVariable(value = "productId") String productId, Model model,
+                                  @ModelAttribute ChosenProductDto chosenProductDTO){
+        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        shoppingCartService.addToCart(chosenProductDTO, productId, loggedInUserEmail);
+        return "redirect:/product/"+productId;
+    }
+
 
     @PostMapping("/register")
     public String registerPagePost(@ModelAttribute UserDto userDto, BindingResult bindingResult,
@@ -101,6 +119,15 @@ public class MainController {
     @GetMapping("/login")
     public String loginGet(){
           return "login";
+    }
+
+    @GetMapping("/cart")
+    public String cartGet(Model model){
+        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        ShoppingCartDto shoppingCartDTO = shoppingCartService.getShoppingCartDTOByUserEmail(loggedInUserEmail);
+        model.addAttribute("shoppingCartDTO", shoppingCartDTO);
+        System.out.println("ShoppingCartDTO este:" + shoppingCartDTO);
+        return "cart";
     }
 
 

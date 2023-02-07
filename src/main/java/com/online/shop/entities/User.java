@@ -21,6 +21,6 @@ public class User {
     private String address;
     private UserRole userRole;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 }

@@ -1,6 +1,7 @@
 package com.online.shop.mapper;
 
 import com.online.shop.dto.UserDto;
+import com.online.shop.entities.ShoppingCart;
 import com.online.shop.entities.User;
 import com.online.shop.enums.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class UserMapper {
         user.setPassword(passwordEncoded);
         user.setAddress(userDto.getAddress());
         user.setUserRole(UserRole.valueOf(userDto.getUserRole()));
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        user.setShoppingCart(shoppingCart);
         return user;
 
     }
