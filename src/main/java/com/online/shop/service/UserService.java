@@ -15,9 +15,9 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private UserRepository userRepository;
+
     public void register(UserDto userDto){
         User user = userMapper.map(userDto);
         userRepository.save(user);

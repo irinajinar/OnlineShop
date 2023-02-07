@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
   <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/vendors/themify-icons/themify-icons.css">
@@ -15,38 +15,39 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-
+<div th:insert="fragments/menu :: menu"></div>
 <!--================Single Product Area =================-->
-<div class="product_image_area">
+<div class="product_image_area" th:object="${productDTOToGet}">
   <div class="container">
-    <div th:object="${productDtoXX}"  class="row s_product_inner">
+    <div class="row s_product_inner">
       <div class="col-lg-6">
-        <div class="card-product__img">
-          <img class="card-img" th:src="${'data:image/png; base64, '+productDtoXX.image}" alt="">
-          <ul class="card-product__imgOverlay">
-            <li><button><i class="ti-search"></i></button></li>
-            <li><button><i class="ti-shopping-cart"></i></button></li>
-            <li><button><i class="ti-heart"></i></button></li>
-          </ul>
+        <div class="owl-carousel owl-theme s_Product_carousel owl-loaded owl-drag">
+          <div class="single-prd-item">
+            <img style="min-width: 100%" class="img-fluid" th:src="${'data:image/png; base64, '+productDTOToGet.image}" alt="">
+          </div>
+          <!-- <div class="single-prd-item">
+              <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+          </div>
+          <div class="single-prd-item">
+              <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+          </div> -->
         </div>
       </div>
       <div class="col-lg-5 offset-lg-1">
         <div class="s_product_text">
           <h3 th:text="${productDtoXX.name}"></h3>
-          <h2 th:text="${'$ '+productDtoXX.price}" ></h2>
+          <h2 th:text="'$'+${productDtoXX.price}"></h2>
           <ul class="list">
-            <li><a class="active" href="#"><span>Category</span> : <span th:text="${productDtoXX.category}"></span></a></li>
-            <li><a href="#"><span>Availability</span> : <span th:text="${productDtoXX.quantity}"></span></a></li>
+            <li><a class="active" href="#" ><span>Category: </span><span th:text="${productDtoXX.category}"></span> </a></li>
+            <li><a href="#"><span>Availability: </span><span th:text="${productDtoXX.quantity}"></span></a></li>
           </ul>
           <p th:text="${productDtoXX.description}"></p>
           <div class="product_count">
-            <label for="qty">Quantity:</label>
-            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                    class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
-            <input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                    class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-            <a class="button primary-btn" href="#">Add to Cart</a>
+            <form th:object="${chosenProductDto}" th:action="@{/product/{productId}(productId=${productDtoXX.id})}" method="post">
+              <label for="qty">Quantity:</label>
+              <input th:field="*{quantity}" type="number" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+              <button class="btn btn-primary" type="submit"> Add to cart </button>
+            </form>
           </div>
           <div class="card_area d-flex align-items-center">
             <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>

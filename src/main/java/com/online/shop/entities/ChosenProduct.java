@@ -11,9 +11,9 @@ import javax.persistence.*;
 public class ChosenProduct {
     @Id
     @GeneratedValue
-    private Integer chosenProduct;
+    private Integer chosenProductId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn
     private ShoppingCart shoppingCart;
 
