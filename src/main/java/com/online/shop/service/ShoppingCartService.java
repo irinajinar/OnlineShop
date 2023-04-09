@@ -34,7 +34,6 @@ public class ShoppingCartService {
     public void addToCart(ChosenProductDto chosenProductDto, String productId, String loggedInUserEmail) {
         ChosenProduct chosenProduct = buildChosenProduct(chosenProductDto, productId, loggedInUserEmail);
         chosenProductRepository.save(chosenProduct);
-
     }
 
     private ChosenProduct buildChosenProduct(ChosenProductDto chosenProductDto, String productId, String loggedInUserEmail) {
@@ -47,18 +46,25 @@ public class ShoppingCartService {
         return chosenProduct;
     }
 
-    public ShoppingCartDto getShoppingCartDTOByUserEmail(String loggedInUserEmail) {
+    public ShoppingCartDto getShoppingCartDtoByUserEmail(String loggedInUserEmail) {
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserEmail(loggedInUserEmail);
-        ShoppingCartDto shoppingCartDTO = new ShoppingCartDto();
-        for(ChosenProduct chosenProduct : shoppingCart.getChosenProducts()){
-            ShoppingCartItemDto shoppingCartItemDTO = new ShoppingCartItemDto();
-            shoppingCartItemDTO.setName(chosenProduct.getProduct().getName());
-            shoppingCartItemDTO.setQuantity(String.valueOf(chosenProduct.getChosenQuantity()));
-            shoppingCartItemDTO.setPrice(String.valueOf(chosenProduct.getProduct().getPrice()));
-            shoppingCartItemDTO.setTotal(String.valueOf(chosenProduct.getChosenQuantity()*chosenProduct.getProduct().getPrice()));
-            shoppingCartItemDTO.setImage(Base64.encodeBase64String(chosenProduct.getProduct().getImage()));
-            shoppingCartDTO.add(shoppingCartItemDTO);
+        ShoppingCartDto shoppingCartDto = new ShoppingCartDto();
+        double subTotal = 0;
+        for (ChosenProduct chosenProduct : shoppingCart.getChosenProducts()) {
+            ShoppingCartItemDto shoppingCartItemDto = new ShoppingCartItemDto();
+            shoppingCartItemDto.setName(chosenProduct.getProduct().getName());
+            shoppingCartItemDto.setQuantity(String.valueOf(chosenProduct.getChosenQuantity()));
+            shoppingCartItemDto.setPrice(String.valueOf(chosenProduct.getProduct().getPrice()));
+            double auxiliaryPrice = chosenProduct.getChosenQuantity() * chosenProduct.getProduct().getPrice();
+            shoppingCartItemDto.setTotal(String.valueOf(auxiliaryPrice));
+            subTotal = subTotal + auxiliaryPrice;
+            shoppingCartItemDto.setImage(Base64.encodeBase64String(chosenProduct.getProduct().getImage()));
+            shoppingCartDto.add(shoppingCartItemDto);
         }
-        return shoppingCartDTO;
+        shoppingCartDto.setSubTotal(String.valueOf(subTotal));
+        shoppingCartDto.setTotal(String.valueOf(subTotal + 50));
+        return shoppingCartDto;
+
     }
+
 }

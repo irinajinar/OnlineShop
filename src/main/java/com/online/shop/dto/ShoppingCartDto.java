@@ -13,12 +13,14 @@ import java.util.List;
 public class ShoppingCartDto {
 
     private List<ShoppingCartItemDto> items;
+    private String subTotal;
+    private String total;
 
-    public ShoppingCartDto(){
+    public ShoppingCartDto() {
         items = new ArrayList<>();
     }
 
-    public void add(ShoppingCartItemDto shoppingCartItemDTO){
-        items.add(shoppingCartItemDTO);
+    public void add(ShoppingCartItemDto shoppingCartItemDto) {
+        items.add(shoppingCartItemDto);
     }
 }

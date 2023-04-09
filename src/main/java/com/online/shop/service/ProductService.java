@@ -1,6 +1,7 @@
 package com.online.shop.service;
 
 
+import com.online.shop.dto.ChosenProductDto;
 import com.online.shop.dto.ProductDto;
 import com.online.shop.entities.Product;
 import com.online.shop.mapper.ProductMapper;
@@ -32,17 +33,17 @@ public class ProductService {
             ProductDto productDto = productMapper.map(product);
             productDtoList.add(productDto);
         }
-
         return productDtoList;
     }
 
-    public Optional<ProductDto> getOneProductDtoById(String productId) {
+    public Optional<ProductDto> getProductDtoById(String productId) {
         Optional<Product> optionalProduct = productRepository.findById(Integer.valueOf(productId));
-        if(optionalProduct.isEmpty()){
+        if (optionalProduct.isEmpty()) {
             return Optional.empty();
         }
         Product product = optionalProduct.get();
         ProductDto productDto = productMapper.map(product);
         return Optional.of(productDto);
     }
+
 }

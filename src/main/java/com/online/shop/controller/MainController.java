@@ -1,9 +1,7 @@
 package com.online.shop.controller;
 
-import com.online.shop.dto.ChosenProductDto;
-import com.online.shop.dto.ProductDto;
-import com.online.shop.dto.ShoppingCartDto;
-import com.online.shop.dto.UserDto;
+import com.online.shop.dto.*;
+import com.online.shop.service.CustomerOrderService;
 import com.online.shop.service.ProductService;
 import com.online.shop.service.ShoppingCartService;
 import com.online.shop.service.UserService;
@@ -24,26 +22,25 @@ import java.util.Optional;
 
 @Controller
 public class MainController {
-
-    @Autowired
-    private ProductService productService;
-
     @Autowired
     private UserService userService;
 
     @Autowired
-    private ProductValidator productValidator;
+    private ProductService productService;
+    @Autowired
+    private ShoppingCartService shoppingCartService;
+    @Autowired
+    private CustomerOrderService customerOrderService;
 
     @Autowired
     private UserValidator userValidator;
 
     @Autowired
-    private ShoppingCartService shoppingCartService;
+    private ProductValidator productValidator;
 
-      @GetMapping("/addProduct")
+
+    @GetMapping("/addProduct")
     public String addProductPageGet(Model model) {
-        //se va excuta "business logic"
-        //dupa care intoarcem un nume de pagina
         ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
         return "addProduct";
@@ -62,73 +59,109 @@ public class MainController {
     }
 
     @GetMapping("/home")
-    public String homepageGet(Model model) {
+    public String homePageGet(Model model) {
         List<ProductDto> productDtoList = productService.getAllProductDtos();
         model.addAttribute("productDtoList", productDtoList);
         System.out.println(productDtoList);
         return "homepage";
+
     }
 
     @GetMapping("/product/{productId}")
     public String viewProductGet(@PathVariable(value = "productId") String productId, Model model) {
-        Optional<ProductDto> optionalProductDto = productService.getOneProductDtoById(productId);
+        Optional<ProductDto> optionalProductDto = productService.getProductDtoById(productId);
         if (optionalProductDto.isEmpty()) {
             return "error";
         }
         ProductDto productDto = optionalProductDto.get();
-        model.addAttribute("productDtoXX", productDto);
-        System.out.println("Am dat click pe produsul cu id-ul" + productId);
-        ChosenProductDto chosenProductDto= new ChosenProductDto();
+        model.addAttribute("productDto", productDto);
+        ChosenProductDto chosenProductDto = new ChosenProductDto();
         model.addAttribute("chosenProductDto", chosenProductDto);
         return "viewProduct";
     }
 
+    @PostMapping("/product/{productId}")
+    public String viewProductPost(@PathVariable(value = "productId") String productId, Model model,
+                                  @ModelAttribute ChosenProductDto chosenProductDto) {
+        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        shoppingCartService.addToCart(chosenProductDto, productId, loggedInUserEmail);
+        return "redirect:/product/" + productId;
+    }
+
     @GetMapping("/register")
-    public String registerPageGet(Model model,@RequestParam(value = "userAddedSuccessfully", required = false) Boolean userAddedSuccessfully){
+    public String registerPageGet(Model model, @RequestParam(value = "userAddedSuccessfully", required = false) Boolean userAddedSuccessfully) {
         System.out.println(userAddedSuccessfully);
-        UserDto userDto=new UserDto();
+        UserDto userDto = new UserDto();
         model.addAttribute("userDto", userDto);
         if (userAddedSuccessfully != null && userAddedSuccessfully) {
-            model.addAttribute("message", "User was added successfuly!");
+            model.addAttribute("message", "User was added successfully!");
         }
         return "register";
     }
 
-    @PostMapping("/product/{productId}")
-    public String viewProductPost(@PathVariable(value = "productId") String productId, Model model,
-                                  @ModelAttribute ChosenProductDto chosenProductDTO){
-        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        shoppingCartService.addToCart(chosenProductDTO, productId, loggedInUserEmail);
-        return "redirect:/product/"+productId;
-    }
-
-
     @PostMapping("/register")
     public String registerPagePost(@ModelAttribute UserDto userDto, BindingResult bindingResult,
-                                   RedirectAttributes redirectAttributes) throws IOException {
+                                   RedirectAttributes redirectAttributes) {
+
         System.out.println(userDto);
         userValidator.validate(userDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return "register";
         }
-        userService.register(userDto);
+        userService.registerUser(userDto);
         redirectAttributes.addAttribute("userAddedSuccessfully", true);
         return "redirect:/register";
     }
 
     @GetMapping("/login")
-    public String loginGet(){
-          return "login";
+    public String loginGet() {
+        return "login";
+    }
+
+    @GetMapping("/checkout")
+    public String checkoutGet(Model model) {
+        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        ShoppingCartDto shoppingCartDto = shoppingCartService.getShoppingCartDtoByUserEmail(loggedInUserEmail);
+        model.addAttribute("shoppingCartDto", shoppingCartDto);
+
+        UserDetailsDto userDetailsDto = userService.getUserDetailsDtoByEmail(loggedInUserEmail);
+        model.addAttribute("userDetailsDto", userDetailsDto);
+
+        return "checkout";
     }
 
     @GetMapping("/cart")
-    public String cartGet(Model model){
+    public String cartGet(Model model) {
         String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        ShoppingCartDto shoppingCartDTO = shoppingCartService.getShoppingCartDTOByUserEmail(loggedInUserEmail);
-        model.addAttribute("shoppingCartDTO", shoppingCartDTO);
-        System.out.println("ShoppingCartDTO este:" + shoppingCartDTO);
+        ShoppingCartDto shoppingCartDto = shoppingCartService.getShoppingCartDtoByUserEmail(loggedInUserEmail);
+        model.addAttribute("shoppingCartDto", shoppingCartDto);
+        System.out.println("ShoppingcartDto este: " + shoppingCartDto);
         return "cart";
     }
 
+    @PostMapping("/sendOrder")
+    public String sendOrderPost(@ModelAttribute("userDetailsDto") UserDetailsDto userDetailsDto) {
+        System.out.println(userDetailsDto);
+        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        customerOrderService.addCustomerOrder(loggedInUserEmail, userDetailsDto.getShippingAddress());
+        return "confirmation";
+    }
 
+    @GetMapping("/contact")
+    public String contactGet(Model model) {
+        return "contact";
+    }
+
+    @GetMapping("/ordersTracking")
+    public String ordersTrackingGet(Model model) {
+        List<CustomerOrderDto> customerOrderDtoList = customerOrderService.getAllCustomerOrderDtos();
+        model.addAttribute("customerOrderDtoList", customerOrderDtoList);
+        System.out.println(customerOrderDtoList);
+        return "ordersTracking";
+    }
 }
+
+
+
+

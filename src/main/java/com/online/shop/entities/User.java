@@ -1,10 +1,13 @@
 package com.online.shop.entities;
 
 import com.online.shop.enums.UserRole;
+
 import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 
 @Entity
@@ -23,4 +26,7 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
+
+    @OneToMany(mappedBy = "user")
+    private List<CustomerOrder> orders;
 }

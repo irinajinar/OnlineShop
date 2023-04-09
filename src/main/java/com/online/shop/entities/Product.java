@@ -18,12 +18,13 @@ public class Product {
     private String category;
     private Double price;
     private String description;
+    private Integer quantity;
 
     @Lob
-    @Column(columnDefinition="BLOB")
+    @Column(columnDefinition="MEDIUMBLOB")
     private byte[] image;
 
-    private Integer quantity;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<ChosenProduct> chosenProducts;
 

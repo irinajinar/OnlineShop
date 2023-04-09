@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="icon" href="/img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/vendors/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/linericon/style.css">
+    <link rel="stylesheet" href="/vendors/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/vendors/nice-select/nice-select.css">
+    <link rel="stylesheet" href="/vendors/nouislider/nouislider.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<div th:insert="fragments/menu :: menu"></div>
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="customerOrderDto:${customerOrderDtoList}">
+                        <td>
+                            <h5 th:text="${customerOrderDto.customerName}"></h5>
+                        </td>
+                        <td>
+                            <div th:each="chosenProductDto:${customerOrderDto.chosenProductDtoList}">
+                                <p th:text="${chosenProductDto.productDto.name}"></p>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div th:each="chosenProductDto:${customerOrderDto.chosenProductDtoList}">
+                                <p th:text="${chosenProductDto.quantity}"></p>
+                            </div>
+                        </td>
+
+                        <td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

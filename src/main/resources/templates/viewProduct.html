@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>View Product</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.png">
   <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/vendors/themify-icons/themify-icons.css">
@@ -11,42 +12,40 @@
   <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">
   <link rel="stylesheet" href="/vendors/nice-select/nice-select.css">
   <link rel="stylesheet" href="/vendors/nouislider/nouislider.min.css">
-
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div th:insert="fragments/menu :: menu"></div>
 <!--================Single Product Area =================-->
-<div class="product_image_area" th:object="${productDTOToGet}">
+<div class="product_image_area">
   <div class="container">
-    <div class="row s_product_inner">
+    <div th:object="${productDto}" class="row s_product_inner">
       <div class="col-lg-6">
-        <div class="owl-carousel owl-theme s_Product_carousel owl-loaded owl-drag">
-          <div class="single-prd-item">
-            <img style="min-width: 100%" class="img-fluid" th:src="${'data:image/png; base64, '+productDTOToGet.image}" alt="">
-          </div>
-          <!-- <div class="single-prd-item">
-              <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
-          </div>
-          <div class="single-prd-item">
-              <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
-          </div> -->
+        <div class="card-product__img">
+          <img class="card-img" th:src="${'data:image/png; base64, '+productDto.image}" alt="">
+          <ul class="card-product__imgOverlay">
+            <li><button><i class="ti-search"></i></button></li>
+            <li><button><i class="ti-shopping-cart"></i></button></li>
+            <li><button><i class="ti-heart"></i></button></li>
+          </ul>
         </div>
       </div>
       <div class="col-lg-5 offset-lg-1">
         <div class="s_product_text">
-          <h3 th:text="${productDtoXX.name}"></h3>
-          <h2 th:text="'$'+${productDtoXX.price}"></h2>
+          <h3 th:text="${productDto.name}"></h3>
+          <h2 th:text="${'$ '+productDto.price}"></h2>
           <ul class="list">
-            <li><a class="active" href="#" ><span>Category: </span><span th:text="${productDtoXX.category}"></span> </a></li>
-            <li><a href="#"><span>Availability: </span><span th:text="${productDtoXX.quantity}"></span></a></li>
+            <li><a class="active" href="#"><span>Category</span> : <span th:text="${productDto.category}"></span></a></li>
+            <li><a href="#"><span>Availability</span> : <span th:text="${productDto.quantity}"></span></a></li>
           </ul>
-          <p th:text="${productDtoXX.description}"></p>
+          <p th:text="${productDto.description}"></p>
           <div class="product_count">
-            <form th:object="${chosenProductDto}" th:action="@{/product/{productId}(productId=${productDtoXX.id})}" method="post">
-              <label for="qty">Quantity:</label>
-              <input th:field="*{quantity}" type="number" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-              <button class="btn btn-primary" type="submit"> Add to cart </button>
+            <form th:object="${chosenProductDto}" th:action="@{/product/{productId}(productId=${productDto.id})}" method="post">
+              <label for="quantity">Quantity:</label>
+              <button class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
+              <input th:field="*{quantity}"type="number" name="quantity" id="quantity" size="2" maxlength="12" value="1" min="1" title="Quantity:"
+                     class="input-text qty">
+              <button class="btn btn-primary" type="submit">Add to cart</button>
             </form>
           </div>
           <div class="card_area d-flex align-items-center">

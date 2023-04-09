@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.png">
+  <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="vendors/linericon/style.css">
+  <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:insert="fragments/menu :: menu"></div>
+<!--================Checkout Area =================-->
+<section class="checkout_area section-margin--small">
+  <div class="container">
+    <form th:object="${userDetailsDto}" action="/sendOrder" method="post">
+      <div class="billing_details">
+        <div class="row">
+          <div class="col-lg-8">
+            <h3>Billing Details</h3>
+            <div class="row contact_form">
+              <div class="col-md-12 form-group">
+                <input readonly type="text" class="form-control" id="fullName"
+                       th:value="${userDetailsDto.fullName}">
+              </div>
+              <div class="col-md-12 form-group p_star">
+                <input readonly type="text" class="form-control" id="address"
+                       th:value="${userDetailsDto.address}">
+              </div>
+              <div class="col-md-12 form-group mb-0">
+                <div class="creat_account">
+                  <h3>Shipping Details</h3>
+                  <input type="checkbox" id="differentAddress" name="selector" onclick="toggleDifferentAddress()">
+                  <label for="differentAddress">Ship to a different address?</label>
+                  <script>
+                    function toggleDifferentAddress(){
+                      let checkBox= document.getElementById("differentAddress");
+                      let textArea = document.getElementById("message");
+                      if(checkBox.checked){
+                        textArea.style.display = "block";
+                      }else {
+                        textArea.style.display = "none";
+                      }
+                    }
+
+                  </script>
+                  <style>
+                    #message{
+                      display: none;
+                    }
+                  </style>
+                </div>
+                <textarea th:field="*{shippingAddress}" class="form-control" name="message" id="message" rows="1" placeholder="Shipping address"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="order_box">
+              <h2>Your Order</h2>
+              <ul class="list">
+                <li><a href="#"><h4>Product <span>Total</span></h4></a></li>
+                <li th:each="item: ${shoppingCartDto.items}">
+                  <a href="#"><span style="float: left;" th:text="${item.name}"></span><span class="middle" th:text="${'x '+item.quantity}">x 02</span> <span class="last" th:text="${'$'+item.total}"></span></a></li>
+                <style>
+                  .order_box .list li a span.first{
+                    float:left;
+                  }
+
+                </style>
+              </ul>
+              <ul class="list list_2">
+                <li><a href="#">Subtotal <span th:text="${'$'+ shoppingCartDto.subTotal}"></span></a></li>
+                <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
+                <li><a href="#">Total <span th:text="${'$'+ shoppingCartDto.total}">$2210.00</span></a></li>
+              </ul>
+              <div class="payment_item">
+                <div class="radion_btn">
+                  <input type="radio" id="f-option5" name="selector">
+                  <label for="f-option5">Check payments</label>
+                  <div class="check"></div>
+                </div>
+                <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
+                  Store Postcode.</p>
+              </div>
+              <div class="payment_item active">
+                <div class="radion_btn">
+                  <input type="radio" id="f-option6" name="selector">
+                  <label for="f-option6">Paypal </label>
+                  <img src="img/product/card.jpg" alt="">
+                  <div class="check"></div>
+                </div>
+                <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
+                  account.</p>
+              </div>
+              <div class="creat_account">
+                <input type="checkbox" id="f-option4" name="selector">
+                <label for="f-option4">I’ve read and accept the </label>
+                <a href="#">terms & conditions*</a>
+              </div>
+              <div class="text-center">
+                <button class="button button-paypal" type="submit">Send order</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<!--================End Checkout Area =================-->
+</body>
+</html>

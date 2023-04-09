@@ -20,8 +20,6 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByEmail(email);

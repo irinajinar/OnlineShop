@@ -11,6 +11,7 @@ public class ShoppingCartItemDto {
 
     @ToString.Exclude
     private String image;
+
     private String name;
     private String price;
     private String quantity;
