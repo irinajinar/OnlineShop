@@ -11,15 +11,19 @@ import javax.persistence.*;
 public class ChosenProduct {
     @Id
     @GeneratedValue
-    private Integer chosenProductId;
-
-    @ManyToOne
-    @JoinColumn
-    private ShoppingCart shoppingCart;
+    private Integer id;
 
     private Integer chosenQuantity;
 
     @ManyToOne
     @JoinColumn
     private Product product;
+
+    @ManyToOne
+    @JoinColumn
+    private ShoppingCart shoppingCart;
+
+    @ManyToOne
+    @JoinColumn
+    private CustomerOrder customerOrder;
 }

@@ -9,19 +9,19 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class ShoppingCart {
+public class CustomerOrder {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @OneToOne
+    private String shippingAddress;
+
+    @ManyToOne
     @JoinColumn
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shoppingCart")
+    @OneToMany(mappedBy = "customerOrder")
     private List<ChosenProduct> chosenProducts;
-
-
 
 }

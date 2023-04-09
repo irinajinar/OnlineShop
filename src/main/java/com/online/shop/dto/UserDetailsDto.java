@@ -7,7 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ChosenProductDto {
-    private String quantity;
-    private ProductDto productDto;
+public class UserDetailsDto {
+    private String fullName;
+    private String address;
+    private String shippingAddress;
 }

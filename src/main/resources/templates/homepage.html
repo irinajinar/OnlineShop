@@ -2,9 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home</title>
     <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
@@ -22,29 +20,25 @@
 <section class="section-margin calc-60px">
     <div class="container">
         <div class="section-intro pb-60px">
-            <p>Popular Item in the market</p>
-            <h2>Trending <span class="section-intro__style">Product</span></h2>
+            <p>Discover our work </p>
+            <h2>Top <span class="section-intro__style">Products</span></h2>
         </div>
         <div class="row">
             <div class="col-md-6 col-lg-4 col-xl-3" th:each="productDto: ${productDtoList}">
                 <div class="card text-center card-product">
                     <div class="card-product__img">
                         <img class="card-img" th:src="${'data:image/png; base64, '+productDto.image}" alt="">
-                        <ul class="card-product__imgOverlay">
-                            <li><button><i class="ti-search"></i></button></li>
-                            <li><button><i class="ti-shopping-cart"></i></button></li>
-                            <li><button><i class="ti-heart"></i></button></li>
-                        </ul>
+
                     </div>
                     <div class="card-body">
-                        <p th:text=" ${productDto.category}"></p>
-                        <h4 class="card-product__title"><a th:text= "${productDto.name}"
+                        <p th:text="${productDto.category}"></p>
+                        <h4 class="card-product__title" ><a th:text="${productDto.name}"
                                                            th:href="@{/product/{x}(x=${productDto.id})}"></a></h4>
-                        <p th:text="'$'+${productDto.price}" class="card-product__price"></p>
+                        <p th:text="${'$'+productDto.price}" class="card-product__price"></p>
                     </div>
+                    </a>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
