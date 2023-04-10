@@ -21,20 +21,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MainController {
     @Autowired
     private UserService userService;
-
     @Autowired
     private ProductService productService;
     @Autowired
     private ShoppingCartService shoppingCartService;
     @Autowired
     private CustomerOrderService customerOrderService;
-
     @Autowired
     private UserValidator userValidator;
-
     @Autowired
     private ProductValidator productValidator;
 
@@ -89,7 +87,8 @@ public class MainController {
     }
 
     @GetMapping("/register")
-    public String registerPageGet(Model model, @RequestParam(value = "userAddedSuccessfully", required = false) Boolean userAddedSuccessfully) {
+    public String registerPageGet(Model model, @RequestParam(value = "userAddedSuccessfully", required = false)
+                                    Boolean userAddedSuccessfully) {
         System.out.println(userAddedSuccessfully);
         UserDto userDto = new UserDto();
         model.addAttribute("userDto", userDto);
