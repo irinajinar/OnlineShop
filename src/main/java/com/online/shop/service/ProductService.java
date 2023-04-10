@@ -1,7 +1,6 @@
 package com.online.shop.service;
 
 
-import com.online.shop.dto.ChosenProductDto;
 import com.online.shop.dto.ProductDto;
 import com.online.shop.entities.Product;
 import com.online.shop.mapper.ProductMapper;

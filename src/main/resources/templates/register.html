@@ -1,99 +1,99 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Register</title>
-  <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="/vendors/themify-icons/themify-icons.css">
-  <link rel="stylesheet" href="/vendors/linericon/style.css">
-  <link rel="stylesheet" href="/vendors/owl-carousel/owl.theme.default.min.css">
-  <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">
-  <link rel="stylesheet" href="/vendors/nice-select/nice-select.css">
-  <link rel="stylesheet" href="/vendors/nouislider/nouislider.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/vendors/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/linericon/style.css">
+    <link rel="stylesheet" href="/vendors/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/vendors/nice-select/nice-select.css">
+    <link rel="stylesheet" href="/vendors/nouislider/nouislider.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <!-- ================ start banner area ================= -->
 <section class="blog-banner-area" id="category">
-  <div class="container h-100">
-    <div class="blog-banner">
-      <div class="text-center">
-        <h1>Register</h1>
-        <nav aria-label="breadcrumb" class="banner-breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Register</li>
-          </ol>
-        </nav>
-      </div>
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Register</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Register</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 <!-- ================ end banner area ================= -->
 
 <!--================Login Box Area =================-->
 <section class="login_box_area section-margin">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="login_box_img">
-          <div class="hover">
-            <h4>Already have an account?</h4>
-            <p>Welcome back!</p>
-            <p>Ce bine că te-ai întors!!!</p>
-            <a class="button button-account" href="login">Login Now</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="login_form_inner register_form_inner">
-          <h3>Create an account</h3>
-          <form th:object="${userDto}" class="row login_form" action="/register" id="register_form"
-                method="post">
-            <p th:if="${message}" th:text ="${message}"></p>
-            <div class="col-md-12 form-group">
-              <input th:field="*{fullName}" type="text" class="form-control" id="fullName"
-                     placeholder="Full name"
-                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Full name'">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login_box_img">
+                    <div class="hover">
+                        <h4>Already have an account?</h4>
+                        <a class="button button-account" href="login">Login Now</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-12 form-group">
-              <input th:field="*{email}" type="text" class="form-control" id="email" name="email"
-                     placeholder="Email"
-                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
-              <p th:each="error : ${#fields.errors('email')}" th:text="${error}"></p>
-            </div>
-            <div class="col-md-12 form-group">
-              <input th:field="*{password}" type="password" class="form-control" id="password" name="password"
-                     placeholder="Password"
-                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
-            </div>
-            <div class="col-md-12 form-group">
-              <input th:field="*{confirmPassword}" type="password" class="form-control" id="confirmPassword"
-                     name="confirmPassword"
-                     placeholder="Confirm Password" onfocus="this.placeholder = ''"
-                     onblur="this.placeholder = 'Confirm Password'">
-              <p th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}"></p>
-            </div>
-            <div class="col-md-12 form-group">
-              <input th:field="*{address}" type="text" class="form-control" id="address"
-                     placeholder="Your address" onfocus="this.placeholder = ''"
-                     onblur="this.placeholder = 'Your address'">
+            <div class="col-lg-6">
+                <div class="login_form_inner register_form_inner">
+                    <h3>Create an account</h3>
+                    <form th:object="${userDto}" class="row login_form" action="/register" id="register_form"
+                          method="post">
+                        <p th:if="${message}" th:text="${message}"></p>
+                        <div class="col-md-12 form-group">
+                            <input th:field="*{fullName}" type="text" class="form-control" id="fullName"
+                                   placeholder="Full name"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Full name'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input th:field="*{email}" type="text" class="form-control" id="email" name="email"
+                                   placeholder="Email"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+                            <p th:each="error : ${#fields.errors('email')}" th:text="${error}"></p>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input th:field="*{password}" type="password" class="form-control" id="password"
+                                   name="password"
+                                   placeholder="Password"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input th:field="*{confirmPassword}" type="password" class="form-control"
+                                   id="confirmPassword"
+                                   name="confirmPassword"
+                                   placeholder="Confirm Password" onfocus="this.placeholder = ''"
+                                   onblur="this.placeholder = 'Confirm Password'">
+                            <p th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}"></p>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input th:field="*{address}" type="text" class="form-control" id="address"
+                                   placeholder="Your address" onfocus="this.placeholder = ''"
+                                   onblur="this.placeholder = 'Your address'">
 
-              <select  class="form-control" id = "userRole" th:field = "*{userRole}">
-                <option th:each="role : ${T(com.online.shop.enums.UserRole).values()}"
-                        th:value="${role.name()}" th:text="${role.friendlyName()}"></option>
-              </select>
-              <!--                            <p th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}"></p>-->
+                            <select class="form-control" id="userRole" th:field="*{userRole}">
+                                <option th:each="role : ${T(com.online.shop.enums.UserRole).values()}"
+                                        th:value="${role.name()}" th:text="${role.friendlyName()}"></option>
+                            </select>
+                            <!--                            <p th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}"></p>-->
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="button button-register w-100">Register</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-md-12 form-group">
-              <button type="submit" value="submit" class="button button-register w-100">Register</button>
-            </div>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 <!--================End Login Box Area =================-->
 
